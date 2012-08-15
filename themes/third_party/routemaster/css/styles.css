@@ -1,0 +1,243 @@
+h1 {
+    color: black;
+    margin: 30px;
+    font-family: Arial, Helvetica;
+}
+.heading {
+    margin: 20px
+}
+/* LAYOUT */
+.routemaster_field {
+    width: 100%; 
+    height: 475px;
+    overflow: hidden;
+    position: relative;
+}
+
+.mapWrapper {
+    width: 100%;
+    height:475px;
+    position: absolute;
+    top:0;
+    left: 0;
+
+}
+.sidebarWrapper {
+    width: 0%;
+    height:100%;
+    position: absolute;
+    right:0;
+    top:0;
+}
+.searchWrapper {
+    height: 30px;
+    padding:0px;
+    width: 30%;
+    position:absolute;
+    bottom:0;
+    left:0;
+}
+.controlWrapper {
+    height: 30px;
+    padding:0px;
+    width: 68%;
+    position:absolute;
+    bottom:0;
+    right:0;
+}
+
+
+
+
+
+
+
+
+
+/* SEARCH */
+.searchWrapper {
+    background: rgba(255,255,255,0.5);
+}
+.searchWrapper .search {
+    width: 97%;
+    margin:4px;
+    border: 1px solid #bbb;
+    height: 22px;
+    color: #888;
+    font-style: italic;
+}
+.searchWrapper .search:focus {
+    font-style: normal;
+    color:#333;
+}
+
+
+
+/* SIDEBAR */
+.sidebarWrapper {
+    background: #eee;
+    box-shadow: -1px 0  3px #333;
+}
+.sidebarWrapper .close {
+    position: absolute;
+    width: 10px;
+    height: 60px;
+    background-color: #999;
+    top:50%;
+    left:-10px;
+    margin-top:-30px;
+    box-shadow: -1px 0  2px #666;
+    cursor: pointer;
+    display:none;
+}
+.sidebarWrapper .close:hover {
+    background-color:#666;
+}
+
+.sidebarWrapper h3 {
+    font-family: Helvetica, Arial, sans-serif;
+    margin: 3px 2% 5px 2%;
+    padding-bottom:3px;
+    font-size:1.1em;
+    color:#777;
+    border-bottom:1px solid #888;
+    width: 94%;
+}
+.sidebarWrapper label {
+    display:block;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 0.8em;
+    margin:4px 2% 0 2%;
+}
+.sidebarWrapper input, textarea {
+    border: 1px solid #333;
+    display:block;
+    padding:2% !important;
+    margin: 1px 2% 3px 2%;
+    width:94%;
+    max-width:94%;
+}
+
+.sidebarWrapper select {
+    margin-left:5px;
+}
+.sidebarWrapper input {
+    font-size: 0.9em;
+    width:90%;
+}
+
+.sidebarWrapper textarea {
+    height: 70px;
+}
+
+.sidebarWrapper .iconGrid {
+    padding: 5px 2% 5px 2%;
+}
+.sidebarWrapper .iconGrid label {
+    margin-left: 0;
+    margin-bottom:3px;
+    overflow: hidden;
+}
+.sidebarWrapper .icon {
+    width: 35px;
+    height: 35px;
+    display:block;
+    float: left;
+    margin: 0 10px 10px 0;
+    background-color:#ccc;
+    border: 2px solid #fff;
+    cursor: pointer;
+    background-image: url(../img/icons/sprite.png);
+    background-repeat: no-repeat;
+}
+
+
+.sidebarWrapper .icon.airport {
+    background-position: 0 0;
+}
+
+.sidebarWrapper .icon.circle {
+    background-position: 0 -35px;
+}
+
+.sidebarWrapper .icon.peak {
+    background-position: 0 -70px;
+}
+.sidebarWrapper .icon.active {
+    border: 2px solid #f1ee00;
+    background-position-x:-35px;
+}
+
+.sidebarWrapper .saveControls {
+    overflow: hidden;
+    padding:0 2% 0 2%;
+    width: 94%;
+    position: absolute;
+    bottom: 5px;
+}
+
+.sidebarWrapper .saveControls .btn {
+    float: left;
+    width: 30%;
+    padding: 5px 5%;
+    background: #ccc;
+    border: 1px solid #bbb;
+    margin-right: 3%;
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: Helvetica, Arial, sans-serif;
+    text-align:center;
+    font-size:0.8em;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.sidebarWrapper .saveControls .btn.saveBtn {
+    background-color:#fff;
+    width: 45%;
+}
+.sidebarWrapper .saveControls .btn.deleteBtn {
+    background-color:red;
+    color:#fff;
+    width:25%;
+}
+
+.sidebarWrapper .saveControls .btn.saveBtn:hover {
+    background-color:#efefef;
+}
+.sidebarWrapper .saveControls .btn.deleteBtn:hover {
+    background-color:#C70404;
+}
+
+/* CONTROLS */
+.controlWrapper {
+    
+}
+
+.controlWrapper .button {
+    width: 28px;
+    height: 28px;    
+    display:block;
+    float:left;
+    margin: 0 5px 0 0;
+    cursor:pointer;
+    background: url(../img/markerTypeSprite.png) no-repeat 0 0;
+    text-indent: 28px;
+    overflow:hidden;
+}
+.controlWrapper .button.route {
+    background-position: -29px 0px;
+}
+.controlWrapper .button.icon {
+    background-position: -58px 0px;
+}
+
+.controlWrapper .button.active.poi {
+    background-position: 0 -28px;
+}
+.controlWrapper .button.active.route {
+    background-position: -29px -28px;
+}
+.controlWrapper .button.active.icon {
+    background-position: -58px -28px;
+}
