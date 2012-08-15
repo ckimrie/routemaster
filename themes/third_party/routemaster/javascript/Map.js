@@ -91,6 +91,19 @@ return (function($, rm){
     }
 
 
+    Map.prototype.setCenter = function (lat, lng) {
+        this.gmap.setCenter(new google.maps.LatLng(lat, lng));
+    }
+
+    Map.prototype.setZoom = function (zoom) {
+        this.gmap.setZoom(zoom);
+    }
+
+    Map.prototype.setMapType = function (type) {
+        this.gmap.setMapTypeId(type);
+    }
+
+
     Map.prototype.getCenter = function() {
         var c = this.gmap.getCenter();
         return {

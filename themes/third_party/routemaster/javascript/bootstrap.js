@@ -51,9 +51,11 @@ define(['jquery',], function(jQuery) {
 
         //Load the rest
         require(assets, function() {
-            $(".routemaster_field").each(function() {
-                new rm.Field($(this).find(".map_canvas")[0], $(this).find(".map_state")[0]);
-            })
+            $(document).ready(function () {
+                $(".routemaster_field").each(function() {
+                    new rm.Field($(this).find(".map_canvas")[0], $(this).find(".map_state")[0]);
+                })
+            });
         })
 
 

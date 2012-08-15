@@ -56,6 +56,7 @@ define(['jquery', 'third_party/routemaster/javascript/bootstrap'],function($, rm
                 m = new google.maps.Marker(mConfig);
 
             google.maps.event.addDomListener(m, 'click', function (e) {
+                if(here.parent.readonly) return;
                 here.parent.publish("focus", [here]);
                 return false;
             })
@@ -177,7 +178,7 @@ define(['jquery', 'third_party/routemaster/javascript/bootstrap'],function($, rm
             })
 
 
-            this.parent.publish("focus", [this]);
+            
 
         }
         Poi.prototype = rm.MarkerBase;
@@ -239,7 +240,7 @@ define(['jquery', 'third_party/routemaster/javascript/bootstrap'],function($, rm
              * Create Polyline
              */
             this.set("gpolyline", new google.maps.Polyline({
-                editable: true,
+                editable: false,
                 geodesic: true,
                 path: this.waypoints,
                 map: this.map,
@@ -359,6 +360,38 @@ define(['jquery', 'third_party/routemaster/javascript/bootstrap'],function($, rm
 
             }
 
+            this.setPath = function (path, arrows) {
+                var latLngs = [],
+                    a = [];
+
+
+                for (i = 0; i < path.length; i++) {
+                    latLngs.push(new google.maps.LatLng(path[i].lat, path[i].lng));
+                }
+
+                this.totalArrows = arrows.length;
+                
+                for(var i = 0; i < arrows.length; i++){
+
+                    a.push({
+                        icon: this.arrowSymbol,
+                        offset: arrows[i]
+                    });
+                    
+                }
+                
+                this.directionSymbols = a;
+
+
+                this.gpolyline.setPath(latLngs);
+                this.gpolyline.setOptions({
+                    icons: here.directionSymbols,
+                    strokeColor: this.colourMap[this.routeType]
+                });
+            }
+
+
+           
 
             this.updateRouteSymbols = function () {
                 var a = [],
@@ -394,12 +427,14 @@ define(['jquery', 'third_party/routemaster/javascript/bootstrap'],function($, rm
             
             //Click to select (focus)
             google.maps.event.addDomListener(this.gpolyline, 'click', function (e) {
+                if(here.parent.readonly) return;
                 here.parent.publish("focus", [here]);
                 return false;
             })
 
             //Right click to remove
             google.maps.event.addDomListener(this.gpolyline, 'rightclick', function (e) {
+                if(here.parent.readonly) return;
                 here.waypoints.removeAt(e.vertex);
             })
 
@@ -412,8 +447,6 @@ define(['jquery', 'third_party/routemaster/javascript/bootstrap'],function($, rm
             })
 
             
-            this.parent.publish("focus", [this]);
-
             return this;
 
         }
@@ -549,9 +582,6 @@ define(['jquery', 'third_party/routemaster/javascript/bootstrap'],function($, rm
 
 
             this.updateIcon();
-
-            this.parent.publish("focus", [this]);
-
 
 
             rm.log("Icon marker initialised");
