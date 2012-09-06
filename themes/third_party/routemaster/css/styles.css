@@ -231,6 +231,9 @@ h1 {
 .controlWrapper .button.icon {
     background-position: -58px 0px;
 }
+.controlWrapper .button.label {
+    background-position: -87px 0px;
+}
 
 .controlWrapper .button.active.poi {
     background-position: 0 -28px;
@@ -240,4 +243,21 @@ h1 {
 }
 .controlWrapper .button.active.icon {
     background-position: -58px -28px;
+}
+.controlWrapper .button.active.label {
+    background-position: -87px -28px;
+}
+
+.routemaster_field .routemaster-label {
+    font-size:23px;
+    font-weight: bold;
+    text-align: center;
+    font-family: Helvetica, Arial, sans-serif;
+    -webkit-text-stroke: 1px black;
+    color: white;
+    text-shadow:
+     -1px -1px 0 #000,  
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+       1px 1px 0 #000;
 }

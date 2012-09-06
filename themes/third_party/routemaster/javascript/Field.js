@@ -35,6 +35,7 @@ define(['jquery', './bootstrap'], function($, rm){
             this.poiBtn = new rm.PoiButton(this.layouts.controls[0], this);
             this.routeBtn = new rm.RouteButton(this.layouts.controls[0], this);
             this.iconBtn = new rm.IconButton(this.layouts.controls[0], this);
+            this.labelBtn = new rm.LabelButton(this.layouts.controls[0], this);
         }
 
 
@@ -45,7 +46,8 @@ define(['jquery', './bootstrap'], function($, rm){
         this.mapItems = {
             poi : [],
             routes : [],
-            icons : []
+            icons : [],
+            labels : []
         };
 
 
@@ -157,6 +159,14 @@ define(['jquery', './bootstrap'], function($, rm){
                     return false;
                 });
             }
+
+            if (itemToDelete.get("type") === "label") {
+                here.mapItems.labels = here.mapItems.labels.filter(function (item) {
+                    if(item != itemToDelete) return true;
+                    item = null;
+                    return false;
+                });
+            }
         });
 
         //Map click
@@ -191,6 +201,18 @@ define(['jquery', './bootstrap'], function($, rm){
                 here.currentItem = m;
                 here.publish("focus", [m]);
                 here.mapItems.icons.push(m);
+
+            }
+
+
+
+            if (here.mode === "label") {
+                here.currentItem.unFocus();
+                var m = new rm.Label(mapCtx.gmap, e.latLng, here);
+
+                here.currentItem = m;
+                here.publish("focus", [m]);
+                here.mapItems.labels.push(m);
 
             }
 

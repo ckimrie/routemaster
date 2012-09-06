@@ -12,7 +12,9 @@ define(['jquery',], function(jQuery) {
         "third_party/routemaster/javascript/PoiButton",
         "third_party/routemaster/javascript/IconButton",
         "third_party/routemaster/javascript/RouteButton",
+        "third_party/routemaster/javascript/LabelButton",
         "third_party/routemaster/javascript/Markers",
+        "third_party/routemaster/javascript/markerWithLabel",
         require.toUrl('third_party/routemaster/javascript/utilities.js')
     ]
 

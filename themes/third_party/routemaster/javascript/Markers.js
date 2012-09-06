@@ -45,6 +45,10 @@ define(['jquery', 'third_party/routemaster/javascript/bootstrap'],function($, rm
         }
 
 
+        MarkerBase.setTitle = function (value) {
+            this.set("title", value);
+        }
+
 
 
         MarkerBase.draw = function () {
@@ -231,6 +235,7 @@ define(['jquery', 'third_party/routemaster/javascript/bootstrap'],function($, rm
             this.arrowSymbol = {
                 path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
                 scale: 2,
+                strokeWeight: 3,
                 strokeColor: this.colourMap[this.routeType]
             }
             this.directionSymbols = [];
@@ -245,6 +250,7 @@ define(['jquery', 'third_party/routemaster/javascript/bootstrap'],function($, rm
                 path: this.waypoints,
                 map: this.map,
                 strokeOpacity: 0.8,
+                strokeWeight: 3,
                 strokeColor: this.colourMap[this.routeType],
                 icons: this.directionSymbols
             }));
@@ -598,4 +604,228 @@ define(['jquery', 'third_party/routemaster/javascript/bootstrap'],function($, rm
     })(jQuery, rm);
 
 
+
+
+
+
+
+
+    (function ($, rm) {
+        var Label = function (map, latLng, ctx) {
+
+            var here = this;
+            
+            this.set('title', "Label");
+            this.set('focus', false);
+            this.set("type", "label");
+            this.set("parent", ctx);
+            this.set("map", map);
+            this.set("latLng", latLng);
+            this.set("origin", {x:0, y:0});
+            this.set("width", 100);
+            this.set("height", 35);
+
+
+            this.draw = function () {
+               
+                var marker = new MarkerWithLabel({
+                   position: here.latLng,
+                   map: here.map,
+                   draggable: true,
+                   labelContent: "Label",
+                   labelAnchor: new google.maps.Point(-10, 30),
+                   labelClass: "routemaster-label", // the CSS class for the label
+                   labelInBackground: false
+                 });
+
+                this.set("marker", marker);
+            }
+
+
+
+            this.draw()
+
+
+            this.getState = function() {
+                var c = this.marker.getPosition();
+
+                return {
+                    entry_id :      null,
+                    title:          this.title,
+                    lat:            c.lat(),
+                    lng:            c.lng()
+                }
+            };
+
+
+
+
+
+            /**
+             * Focus on icon
+             */
+            this.setFocus = function (e) {
+                if(this.focus){
+                    return;
+                }
+
+                this.focus = true;
+
+            }
+
+
+
+
+            /**
+             * Unfocus from icon
+             */
+            this.unFocus = function (e) {
+                if(!this.focus){
+                    return;
+                }
+
+                this.focus = false;
+
+            }
+
+
+            this.remove = function() {
+                this.marker.setMap(null);
+            };
+
+
+
+            this.setTitle = function (value) {
+                this.set("title", value);
+                this.updateLabel();
+            }
+
+
+            this.updateLabel = function (value) {
+                //console.log(this.get("marker").label)
+                this.get("marker").setContent(this.get("title"));
+            }
+
+
+
+            this.parent.subscribe("focus", function (jQEvent, focusItem) {
+                if(focusItem === here){
+                    here.setFocus();
+                }else{
+                    here.unFocus();
+                }
+            })
+
+
+
+            rm.log("Label marker initialised");
+
+            return this;
+        }
+        
+
+
+
+        Label.prototype = rm.MarkerBase;
+        return rm.fn.Label = Label;
+
+    
+    })(jQuery, rm);
+
+    /*
+    
+     var overlay;
+
+      USGSOverlay.prototype = new google.maps.OverlayView();
+
+      function initialize() {
+        var myLatLng = new google.maps.LatLng(62.323907, -150.109291);
+        var mapOptions = {
+          zoom: 11,
+          center: myLatLng,
+          mapTypeId: google.maps.MapTypeId.SATELLITE
+        };
+
+        var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+
+        var swBound = new google.maps.LatLng(62.281819, -150.287132);
+        var neBound = new google.maps.LatLng(62.400471, -150.005608);
+        var bounds = new google.maps.LatLngBounds(swBound, neBound);
+
+        // Photograph courtesy of the U.S. Geological Survey
+        var srcImage = 'images/talkeetna.png';
+        overlay = new USGSOverlay(bounds, srcImage, map);
+      }
+
+      function USGSOverlay(bounds, image, map) {
+
+        // Now initialize all properties.
+        this.bounds_ = bounds;
+        this.image_ = image;
+        this.map_ = map;
+
+        // We define a property to hold the image's div. We'll
+        // actually create this div upon receipt of the onAdd()
+        // method so we'll leave it null for now.
+        this.div_ = null;
+
+        // Explicitly call setMap on this overlay
+        this.setMap(map);
+      }
+
+      USGSOverlay.prototype.onAdd = function() {
+
+        // Note: an overlay's receipt of onAdd() indicates that
+        // the map's panes are now available for attaching
+        // the overlay to the map via the DOM.
+
+        // Create the DIV and set some basic attributes.
+        var div = document.createElement('div');
+        div.style.borderStyle = 'none';
+        div.style.borderWidth = '0px';
+        div.style.position = 'absolute';
+
+        // Create an IMG element and attach it to the DIV.
+        var img = document.createElement('img');
+        img.src = this.image_;
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.position = 'absolute';
+        div.appendChild(img);
+
+        // Set the overlay's div_ property to this DIV
+        this.div_ = div;
+
+        // We add an overlay to a map via one of the map's panes.
+        // We'll add this overlay to the overlayLayer pane.
+        var panes = this.getPanes();
+        panes.overlayLayer.appendChild(div);
+      }
+
+      USGSOverlay.prototype.draw = function() {
+
+        // Size and position the overlay. We use a southwest and northeast
+        // position of the overlay to peg it to the correct position and size.
+        // We need to retrieve the projection from this overlay to do this.
+        var overlayProjection = this.getProjection();
+
+        // Retrieve the southwest and northeast coordinates of this overlay
+        // in latlngs and convert them to pixels coordinates.
+        // We'll use these coordinates to resize the DIV.
+        var sw = overlayProjection.fromLatLngToDivPixel(this.bounds_.getSouthWest());
+        var ne = overlayProjection.fromLatLngToDivPixel(this.bounds_.getNorthEast());
+
+        // Resize the image's DIV to fit the indicated dimensions.
+        var div = this.div_;
+        div.style.left = sw.x + 'px';
+        div.style.top = ne.y + 'px';
+        div.style.width = (ne.x - sw.x) + 'px';
+        div.style.height = (sw.y - ne.y) + 'px';
+      }
+
+      USGSOverlay.prototype.onRemove = function() {
+        this.div_.parentNode.removeChild(this.div_);
+        this.div_ = null;
+      }
+     */
 });

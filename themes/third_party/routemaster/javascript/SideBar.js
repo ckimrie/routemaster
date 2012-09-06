@@ -118,7 +118,18 @@
             this.arrowDirectionLabel.hide();
             this.arrowDirectionInput.hide();
         }
-
+        if(this.currentFocusItem.get("type") === "label"){
+            this.heading.text("Label");
+            this.iconSelect.hide();
+            this.descriptionLabel.hide();
+            this.descriptionInput.hide();
+            this.arrowCountLabel.hide();
+            this.arrowCountInput.hide();
+            this.routeTypeLabel.hide();
+            this.routeTypeInput.hide();
+            this.arrowDirectionLabel.hide();
+            this.arrowDirectionInput.hide();
+        }
 
 
 
@@ -165,7 +176,7 @@
                 here.titleInput.blur();
                 return;
             }
-            here.currentFocusItem.set("title", here.titleInput.val());
+            here.currentFocusItem.setTitle(here.titleInput.val());
         });
 
 
