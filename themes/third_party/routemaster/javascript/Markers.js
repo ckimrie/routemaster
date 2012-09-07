@@ -146,7 +146,8 @@ define(['jquery', 'third_party/routemaster/javascript/bootstrap'],function($, rm
             this.set("type", "poi");
             this.set("map", map);
             this.set("latLng", latLng);
-            this.set("parent", ctx)
+            this.set("parent", ctx);
+            this.set("entry_id", null);
 
 
             this.draw()
@@ -161,7 +162,7 @@ define(['jquery', 'third_party/routemaster/javascript/bootstrap'],function($, rm
             this.getState = function() {
                 var c = this.marker.getPosition();
                 return {
-                    entry_id :      null,
+                    entry_id :      this.entry_id,
                     title:          this.title,
                     description :   this.description,
                     type:           this.type,
@@ -478,7 +479,8 @@ define(['jquery', 'third_party/routemaster/javascript/bootstrap'],function($, rm
         var spriteIcons = {
             airport: {x:0, y:0},
             circle: {x:0, y:35},
-            peak: {x:0, y:70}
+            peak: {x:0, y:70},
+            walk: {x:0, y:105}
         }
 
 

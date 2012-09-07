@@ -1,11 +1,4 @@
-h1 {
-    color: black;
-    margin: 30px;
-    font-family: Arial, Helvetica;
-}
-.heading {
-    margin: 20px
-}
+
 /* LAYOUT */
 .routemaster_field {
     width: 100%; 
@@ -162,6 +155,9 @@ h1 {
 
 .sidebarWrapper .icon.peak {
     background-position: 0 -70px;
+}
+.sidebarWrapper .icon.walk {
+    background-position: 0 -105px;
 }
 .sidebarWrapper .icon.active {
     border: 2px solid #f1ee00;

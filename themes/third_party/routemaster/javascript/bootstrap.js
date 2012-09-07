@@ -61,6 +61,18 @@ define(['jquery',], function(jQuery) {
         })
 
 
+        /**
+         * Register a single form listener to check title is filled in
+         */
+        $("input#title").closest("form").submit(function(e) {
+            if(!$("input#title").val()){
+                e.preventDefault();
+                alert("Title field is required");
+                return false
+            }
+            return true;
+        })
+
 
         return window.rm;
 

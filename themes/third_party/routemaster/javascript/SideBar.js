@@ -43,7 +43,9 @@
 
         // Subscribe to focus event
         parent.subscribe("focus", function (jQEvent, focusItem) {
+            if(!focusItem)return;
             rm.log("Sidebar focus", focusItem);
+
             here.currentFocusItem = focusItem;
             here.render();
             here.open();
@@ -225,6 +227,7 @@
                             + "<span class='airport icon active' data-icon='airport' title='Airport'></span>"
                             + "<span class='circle icon' data-icon='circle' title='Circle'></span>"
                             + "<span class='peak icon' data-icon='peak' title='Peak'></span>"
+                            + "<span class='walk icon' data-icon='walk' title='Day Walk'></span>"
                             + "</div>");
         this.iconSelect.find(".icon").click(function (e) {
             here.iconSelect.find(".icon").removeClass("active");

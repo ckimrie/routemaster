@@ -25,6 +25,7 @@ class Routemaster_ft extends EE_Fieldtype
 	{
         $data = unserialize(base64_decode($data));
 
+
         if ($this->EE->extensions->active_hook('routemaster_display') === TRUE) {
             $data = $this->EE->extensions->call('routemaster_display', $data);
         }
@@ -70,9 +71,10 @@ class Routemaster_ft extends EE_Fieldtype
         $ret = ""; 
 
         if(!$script_on_page){
+
             $ret .= "<link href='".URL_THIRD_THEMES."routemaster/css/styles.css' rel='stylesheet' type='text/javascript'/>
                     <script src=\"http://maps.googleapis.com/maps/api/js?sensor=false\" type='text/javascript'></script>";
-                
+            
                 $this->EE->requirejs->add("third_party/routemaster/javascript/bootstrap");
                 $script_on_page = TRUE;
         }
@@ -88,6 +90,7 @@ class Routemaster_ft extends EE_Fieldtype
 
     public function save($data)
     {
+
         $data = json_decode($data);
         
 
@@ -111,7 +114,7 @@ class Routemaster_ft extends EE_Fieldtype
 		//RequireJS
 	
 		if(!Routemaster_ft::$gmap_loaded){
-            $this->EE->cp->add_to_head("<link href='".URL_THIRD_THEMES."routemaster/css/styles.css' rel='stylesheet' type='text/javascript'/>");
+            $this->EE->cp->add_to_head("<link href='".URL_THIRD_THEMES."routemaster/css/styles.css' rel='stylesheet' type='text/css'/>");
 			$this->EE->cp->add_to_head("<script src=\"http://maps.googleapis.com/maps/api/js?sensor=false\" type='text/javascript'></script>");
 			$this->EE->requirejs->add("third_party/routemaster/javascript/bootstrap");
 			Routemaster_ft::$gmap_loaded = true;

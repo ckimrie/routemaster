@@ -273,14 +273,16 @@ define(['jquery', './bootstrap'], function($, rm){
          * Map
          */
         
-        //Center
-        this.map.setCenter(data.map.center.lat, data.map.center.lng);
+        if(data.map){
+            //Center
+            this.map.setCenter(data.map.center.lat, data.map.center.lng);
 
-        //Zoom
-        this.map.setZoom(data.map.zoom);
+            //Zoom
+            this.map.setZoom(data.map.zoom);
 
-        //Type
-        this.map.setMapType(data.map.mapTypeId);
+            //Type
+            this.map.setMapType(data.map.mapTypeId);
+        }
 
         /**
          * Safety first...
@@ -299,17 +301,22 @@ define(['jquery', './bootstrap'], function($, rm){
         }
 
 
+        
+
 
         /**
          * POI
          */
-        for (i = 0; i < data.poi.length; i++) {
-            var poi = new rm.Poi(here.map.gmap, new google.maps.LatLng(data.poi[i].lat, data.poi[i].lng), here);
+        if(data.poi){
+            for (i = 0; i < data.poi.length; i++) {
+                var poi = new rm.Poi(here.map.gmap, new google.maps.LatLng(data.poi[i].lat, data.poi[i].lng), here);
 
-            poi.title = data.poi[i].title;
-            poi.description = data.poi[i].description;
+                poi.entry_id = data.poi[i].entry_id;
+                poi.title = data.poi[i].title;
+                poi.description = data.poi[i].description;
 
-            here.mapItems.poi.push(poi);
+                here.mapItems.poi.push(poi);
+            }
         }
 
         //Labels
@@ -321,30 +328,34 @@ define(['jquery', './bootstrap'], function($, rm){
         }
 
         //Icons
-        for (i = 0; i < data.icons.length; i++) {
-            var icon = new rm.Icon(here.map.gmap, new google.maps.LatLng(data.icons[i].lat, data.icons[i].lng), here);
+        if(data.icons){
+            for (i = 0; i < data.icons.length; i++) {
+                var icon = new rm.Icon(here.map.gmap, new google.maps.LatLng(data.icons[i].lat, data.icons[i].lng), here);
 
-            icon.title = data.icons[i].title;
-            icon.description = data.icons[i].description;
-            icon.setIcon(data.icons[i].iconName);
+                icon.title = data.icons[i].title;
+                icon.description = data.icons[i].description;
+                icon.setIcon(data.icons[i].iconName);
 
-            here.mapItems.icons.push(icon);
+                here.mapItems.icons.push(icon);
+            }
         }
 
 
         //Routes
-        for (i = 0; i < data.routes.length; i++) {
-            var route = new rm.Route(here.map.gmap, new google.maps.LatLng(data.routes[i].path[0].lat, data.routes[i].path[0].lng), here);
-            
-            route.title = data.routes[i].title;
-            route.description = data.routes[i].description;
-            route.setDirection(data.routes[i].direction);
-            route.setRouteType(data.routes[i].routeType);
-            
-            route.setPath(data.routes[i].path, data.routes[i].arrows);
-            
-            here.mapItems.routes.push(route);
+        if(data.routes){
+            for (i = 0; i < data.routes.length; i++) {
+                var route = new rm.Route(here.map.gmap, new google.maps.LatLng(data.routes[i].path[0].lat, data.routes[i].path[0].lng), here);
+                
+                route.title = data.routes[i].title;
+                route.description = data.routes[i].description;
+                route.setDirection(data.routes[i].direction);
+                route.setRouteType(data.routes[i].routeType);
+                
+                route.setPath(data.routes[i].path, data.routes[i].arrows);
+                
+                here.mapItems.routes.push(route);
 
+            }
         }
     }
 
