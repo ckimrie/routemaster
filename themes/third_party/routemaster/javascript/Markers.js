@@ -28,7 +28,7 @@ define(['jquery', 'third_party/routemaster/javascript/bootstrap'],function($, rm
         MarkerBase.focus = false;
         MarkerBase.defaultMarker = {
             raiseOnDrag:true,
-            draggable:true
+            draggable: false
         };
         
         MarkerBase.get = function (key) {
@@ -55,7 +55,8 @@ define(['jquery', 'third_party/routemaster/javascript/bootstrap'],function($, rm
             var here = this,
                 mConfig = $.extend(this.defaultMarker, {
                     map: this.get("map"),
-                    position: this.get("latLng")
+                    position: this.get("latLng"),
+                    draggable: !here.parent.readonly
                 }),
                 m = new google.maps.Marker(mConfig);
 
@@ -611,11 +612,16 @@ define(['jquery', 'third_party/routemaster/javascript/bootstrap'],function($, rm
 
 
     (function ($, rm) {
-        var Label = function (map, latLng, ctx) {
+        var Label = function (map, latLng, ctx, defaultLabel) {
 
             var here = this;
             
-            this.set('title', "Label");
+            if(!defaultLabel){
+                defaultLabel = "Label";
+            }
+
+
+            this.set('title', defaultLabel);
             this.set('focus', false);
             this.set("type", "label");
             this.set("parent", ctx);
@@ -628,15 +634,22 @@ define(['jquery', 'third_party/routemaster/javascript/bootstrap'],function($, rm
 
             this.draw = function () {
                
-                var marker = new MarkerWithLabel({
+                var there = here,
+                    marker = new MarkerWithLabel({
                    position: here.latLng,
                    map: here.map,
-                   draggable: true,
-                   labelContent: "Label",
+                   labelContent: this.get('title'),
                    labelAnchor: new google.maps.Point(-10, 30),
                    labelClass: "routemaster-label", // the CSS class for the label
-                   labelInBackground: false
+                   labelInBackground: false,
+                   draggable: !here.parent.readonly
                  });
+
+                google.maps.event.addDomListener(marker, 'click', function (e) {
+                    if(there.parent.readonly) return;
+                    there.parent.publish("focus", [there]);
+                    return false;
+                })
 
                 this.set("marker", marker);
             }
@@ -661,32 +674,8 @@ define(['jquery', 'third_party/routemaster/javascript/bootstrap'],function($, rm
 
 
 
-            /**
-             * Focus on icon
-             */
-            this.setFocus = function (e) {
-                if(this.focus){
-                    return;
-                }
+         
 
-                this.focus = true;
-
-            }
-
-
-
-
-            /**
-             * Unfocus from icon
-             */
-            this.unFocus = function (e) {
-                if(!this.focus){
-                    return;
-                }
-
-                this.focus = false;
-
-            }
 
 
             this.remove = function() {

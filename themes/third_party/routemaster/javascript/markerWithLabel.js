@@ -41,13 +41,13 @@ function MarkerLabel_(marker) {
   this.marker_ = marker;
 
   this.labelDiv_ = document.createElement("div");
-  this.labelDiv_.style.cssText = "position: absolute; overflow: hidden;";
+  this.labelDiv_.style.cssText = "position: absolute; overflow: hidden; width: 400px";
 
   // Set up the DIV for handling mouse events in the label. This DIV forms a transparent veil
   // in the "overlayMouseTarget" pane, a veil that covers just the label. This is done so that
   // events can be captured even if the label is in the shadow of a google.maps.InfoWindow.
   // Code is included here to ensure the veil is always exactly the same size as the label.
-  this.eventDiv_ = document.createElement("div");
+  this.eventDiv_ = document.createElement("span");
   this.eventDiv_.style.cssText = this.labelDiv_.style.cssText;
 }
 
@@ -67,6 +67,8 @@ MarkerLabel_.prototype.onAdd = function () {
   var cSavedZIndex;
   var cLatOffset, cLngOffset;
   var cIgnoreClick;
+
+  window.cIgnoreClick = cIgnoreClick;
 
   // Stops all processing of an event.
   //
@@ -91,6 +93,7 @@ MarkerLabel_.prototype.onAdd = function () {
         google.maps.event.trigger(me.marker_, "dragend", mEvent);
       }
       cMouseIsDown = false;
+
       google.maps.event.trigger(me.marker_, "mouseup", mEvent);
     }),
     google.maps.event.addListener(me.marker_.getMap(), "mousemove", function (mEvent) {

@@ -45,7 +45,7 @@ return (function($, rm){
          * Publish Click Events
          */
         google.maps.event.addDomListener(this.gmap, 'click', function (e) {
-            rm.log("map click")
+            if(window.cIgnoreClick) return;
             here.parent.publish("map/click", [e, here]);
         });
 

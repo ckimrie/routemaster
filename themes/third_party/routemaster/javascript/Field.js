@@ -89,6 +89,11 @@ define(['jquery', './bootstrap'], function($, rm){
                     json.icons.push(here.mapItems.icons[i].getState());
                 }
 
+                json.labels = [];
+                for (i = 0; i < here.mapItems.labels.length; i++) {
+                    json.labels.push(here.mapItems.labels[i].getState());
+                }
+
                 //Routes
                 json.routes = [];
                 for (i = 0; i < here.mapItems.routes.length; i++) {
@@ -263,7 +268,6 @@ define(['jquery', './bootstrap'], function($, rm){
      */
     Field.prototype.loadData = function (data) {
         var here = this;
-        console.log(data);
 
         /**
          * Map
@@ -278,6 +282,23 @@ define(['jquery', './bootstrap'], function($, rm){
         //Type
         this.map.setMapType(data.map.mapTypeId);
 
+        /**
+         * Safety first...
+         */
+        if(!data.poi){
+            data.poi = [];
+        }
+        if(!data.routes){
+            data.routes = [];
+        }
+        if(!data.labels){
+            data.labels = [];
+        }
+        if(!data.icons){
+            data.icons = [];
+        }
+
+
 
         /**
          * POI
@@ -289,6 +310,14 @@ define(['jquery', './bootstrap'], function($, rm){
             poi.description = data.poi[i].description;
 
             here.mapItems.poi.push(poi);
+        }
+
+        //Labels
+        for (i = 0; i < data.labels.length; i++) {
+            var label = new rm.Label(here.map.gmap, new google.maps.LatLng(data.labels[i].lat, data.labels[i].lng), here, data.labels[i].title);
+
+
+            here.mapItems.labels.push(label);
         }
 
         //Icons
