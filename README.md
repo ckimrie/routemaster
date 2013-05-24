@@ -1,5 +1,11 @@
-# Routemaster for ExpressionEngine
+Routemaster for ExpressionEngine
 ===========
+
+There's no docs, no installation instructions, no support and its only ever been tested on a single site (the one it was built for).  
+
+<strong>If you're cool with that, enjoy. If not, move along.</strong>
+
+<hr>
 
 ![Routemaster](http://i.imgur.com/ITgJM.jpg)
 
